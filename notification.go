@@ -51,7 +51,7 @@ func NewFromGithubWebhook(payload github.PushPayload) *Notification {
 	return notification
 }
 
-func NewFromByteArray(b []byte) *Notification {
+func NewFromJson(b []byte) *Notification {
 	var notification Notification
 
 	json.Unmarshal(b, &notification)
