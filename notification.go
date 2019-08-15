@@ -65,3 +65,8 @@ func (notification *Notification) Contains(system_id string) bool {
 	}
 	return false
 }
+
+func (notification *Notification) ToJson() (b []byte, err error) {
+	b, err = json.Marshal(notification)
+	return b, err
+}
