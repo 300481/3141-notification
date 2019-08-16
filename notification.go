@@ -13,8 +13,8 @@ type Notification struct {
 	Ref        string         `json:"ref"`
 	CommitID   string         `json:"commit_id"`
 	UpdatedAt  time.Time      `json:"updated_at"`
-	CreatedAt  int64          `json:"created_at"`
-	PushedAt   int64          `json:"pushed_at"`
+	CreatedAt  time.Time      `json:"created_at"`
+	PushedAt   time.Time      `json:"pushed_at"`
 	SystemIDs  map[string]int `json:"system_ids"`
 }
 
@@ -26,8 +26,8 @@ func NewFromGithubWebhook(payload github.PushPayload) *Notification {
 		Ref:        payload.Ref,
 		CommitID:   payload.After,
 		UpdatedAt:  payload.Repository.UpdatedAt,
-		CreatedAt:  payload.Repository.CreatedAt,
-		PushedAt:   payload.Repository.PushedAt,
+		CreatedAt:  time.Unix(payload.Repository.CreatedAt, 0),
+		PushedAt:   time.Unix(payload.Repository.PushedAt, 0),
 		SystemIDs:  make(map[string]int),
 	}
 
