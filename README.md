@@ -1,2 +1,3 @@
 # 3141-notification
-Data struct for the hook notification event
+
+Hook notification event model.
