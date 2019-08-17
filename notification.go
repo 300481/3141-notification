@@ -21,7 +21,7 @@ type Notification struct {
 var regexID = regexp.MustCompile(`^[a-z0-9\-]{36}`)
 
 func NewFromGithubWebhook(payload github.PushPayload) *Notification {
-	notification := &Notification{
+	n := &Notification{
 		Repository: payload.Repository.URL,
 		Ref:        payload.Ref,
 		CommitID:   payload.After,
@@ -35,42 +35,42 @@ func NewFromGithubWebhook(payload github.PushPayload) *Notification {
 		for _, added := range commit.Added {
 			if regexID.Match([]byte(added)) {
 				system_id := string(regexID.Find([]byte(added)))
-				notification.SystemIDs[system_id]++
+				n.SystemIDs[system_id]++
 			}
 		}
 		for _, removed := range commit.Removed {
 			if regexID.Match([]byte(removed)) {
 				system_id := string(regexID.Find([]byte(removed)))
-				notification.SystemIDs[system_id]++
+				n.SystemIDs[system_id]++
 			}
 		}
 		for _, modified := range commit.Modified {
 			if regexID.Match([]byte(modified)) {
 				system_id := string(regexID.Find([]byte(modified)))
-				notification.SystemIDs[system_id]++
+				n.SystemIDs[system_id]++
 			}
 		}
 	}
 
-	return notification
+	return n
 }
 
 func NewFromJson(b []byte) *Notification {
-	var notification Notification
+	var n Notification
 
-	json.Unmarshal(b, &notification)
+	json.Unmarshal(b, &n)
 
-	return &notification
+	return &n
 }
 
-func (notification *Notification) Contains(system_id string) bool {
-	if _, ok := notification.SystemIDs[system_id]; ok {
+func (n *Notification) Contains(system_id string) bool {
+	if _, ok := n.SystemIDs[system_id]; ok {
 		return true
 	}
 	return false
 }
 
-func (notification *Notification) ToJson() (b []byte, err error) {
-	b, err = json.Marshal(notification)
+func (n *Notification) ToJson() (b []byte, err error) {
+	b, err = json.Marshal(n)
 	return b, err
 }
