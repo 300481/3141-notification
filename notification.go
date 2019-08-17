@@ -70,6 +70,18 @@ func (n *Notification) Contains(system_id string) bool {
 	return false
 }
 
+func (n *Notification) IsSelected(system_id, ref string) bool {
+	_, ok := n.SystemIDs[system_id]
+
+	// empty system_id or a found system_id is true
+	SystemID := (system_id == "") || ok
+
+	// empty ref or a matching ref is true
+	Ref := (ref == "") || (ref == n.Ref)
+
+	return SystemID && Ref
+}
+
 func (n *Notification) ToJson() (b []byte, err error) {
 	b, err = json.Marshal(n)
 	return b, err
