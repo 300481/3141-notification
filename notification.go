@@ -66,13 +66,6 @@ func NewFromJson(b []byte) *Notification {
 	return &n
 }
 
-func (n *Notification) Contains(system_id string) bool {
-	if _, ok := n.SystemIDs[system_id]; ok {
-		return true
-	}
-	return false
-}
-
 func (n *Notification) IsSelected(system_id, ref string) bool {
 	_, ok := n.SystemIDs[system_id]
 
