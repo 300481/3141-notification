@@ -2,6 +2,7 @@ package notification
 
 import (
 	"encoding/json"
+	"log"
 	"regexp"
 	"time"
 
@@ -52,6 +53,7 @@ func NewFromGithubWebhook(payload github.PushPayload) *Notification {
 		}
 	}
 
+	log.Println("Created notification from Github Webhook push event.")
 	return n
 }
 
@@ -60,6 +62,7 @@ func NewFromJson(b []byte) *Notification {
 
 	json.Unmarshal(b, &n)
 
+	log.Println("Created notification from json.")
 	return &n
 }
 
